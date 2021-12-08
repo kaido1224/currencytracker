@@ -1,0 +1,70 @@
+# Version Information
+# =============================================================================
+.deploy.json
+*.swp
+
+
+# No Databases
+# =============================================================================
+*.sqlite3
+flower
+celerybeat-schedule
+
+
+# Python cruft
+# =============================================================================
+*.egg-info
+*~
+*py[co]
+__pycache__
+
+
+# Project Cruft
+# =============================================================================
+
+# Local Django settings.
+.django_settings_module
+
+# Virtual Environments.
+/ve*
+/.ve*
+/env*
+
+# Exuberant tags.
+tags
+.tags*
+var/
+
+# JS build
+node_modules/
+bower_components/
+.eslintrc.json
+package-lock.json
+package.json
+
+# VisualStudio Code.
+.vscode
+
+# coverage.py files
+.coverage
+.coveragerc
+htmlcov/
+
+# Silver Searcher ignore file.
+.ignore
+
+
+# Static and Media Files
+# =============================================================================
+static_root/
+media_root/
+
+
+# Version
+# ========================
+.python-version
+
+# Secrets files
+currency/settings/secrets.py
+
+.flake8
