@@ -18,6 +18,14 @@ from django.views.generic import RedirectView
 from myapp.forms import LoginForm
 
 
+class CollectionView(LoginRequiredMixin, View):
+    t = "collection.html"
+
+    def get(self, request):
+        ctx = {}
+        return render(request, self.t, ctx)
+
+
 class IndexView(LoginRequiredMixin, View):
     t = "index.html"
 

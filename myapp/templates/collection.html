@@ -1,0 +1,38 @@
+{% extends "nav.html" %}
+{% block pageheader %}
+    <h1 class="h3 mb-4 text-gray-800">Collection Management</h1>
+{% endblock pageheader %}
+{% block content %}
+ <div class="container-fluid">
+     <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">My Collection</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Book</th>
+                            <th>Page</th>
+                            <th>Row</th>
+                            <th>Column</th>
+                            <th>Currency</th>
+                            <th>Value</th>
+                            <th>Type</th>
+                            <th>Country Of Origin</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        {% for line in results %}
+                            <tr>
+                            </tr>
+                        {% endfor %}
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+     </div>
+</div>
+
+{% endblock content %}
