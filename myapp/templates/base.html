@@ -34,10 +34,18 @@
         <!-- Page level plugins -->
         <script src="{% static 'sbadmin2/vendor/chart.js/Chart.min.js' %}"></script>
 
-        <!-- Page level custom scripts -->
-        <script src="{% static 'sbadmin2/js/demo/chart-area-demo.js' %}"></script>
-        <script src="{% static 'sbadmin2/js/demo/chart-pie-demo.js' %}"></script>
-        <script src="{% static 'sbadmin2/js/demo/chart-bar-demo.js' %}"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                //Mark the correct path as active.
+                let url = window.location.pathname;
+
+                $('li.nav-item a[href="'+ url +'"]').parent().addClass('active');
+
+                // $('ul.nav a[href="'+ url +'"]').parent().addClass('active');
+                // $('ul.nav a[href="'+ url +'"]').parent().parent().parent().addClass('show')
+                // $('ul.nav a[href="'+ url +'"]').parent().parent().parent().prev().addClass('active').attr('aria-expanded', 'true');
+            });
+        </script>
         {% block extrajs %}
         {% endblock extrajs %}
     </body>

@@ -8,6 +8,7 @@ app_name = "myapp"
 urlpatterns = [
     path('', currency_views.IndexView.as_view(), name='index'),
 
+    # Authorization pages.
     path('login/', currency_views.LoginView.as_view(), name='login'),
     path('logout/', currency_views.LogoutView.as_view(), name='logout'),
 ]

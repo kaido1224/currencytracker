@@ -27,9 +27,9 @@ class IndexView(LoginRequiredMixin, View):
 
 
 class LoginView(FormView):
-    """Provides the ability to login as a user with a username and password.
+    """Basic login screen.
     """
-    success_url = '/'
+    success_url = "/"
     form_class = LoginForm
     redirect_field_name = REDIRECT_FIELD_NAME
     template_name = 'login.html'
@@ -40,10 +40,10 @@ class LoginView(FormView):
         Inherted from `FormMixin`.
         """
         kwargs = super().get_form_kwargs()
-        kwargs['request'] = self.request
+        kwargs["request"] = self.request
         return kwargs
 
-    @method_decorator(sensitive_post_parameters('password'))
+    @method_decorator(sensitive_post_parameters("password"))
     @method_decorator(csrf_protect)
     @method_decorator(never_cache)
     def dispatch(self, request, *args, **kwargs):
@@ -54,11 +54,10 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         auth_login(self.request, form.get_user())
-
         return super(LoginView, self).form_valid(form)
 
     def form_invalid(self, form):
-        messages.error(self.request, 'Unable to log you in with those credentials.')
+        messages.warning(self.request, "Incorrect username or password.")
         return super().form_invalid(form)
 
     def get_success_url(self):
@@ -71,9 +70,8 @@ class LoginView(FormView):
 class LogoutView(RedirectView):
     """Provides users the ability to logout.
     """
-    url = '/login'
+    url = "/login"
 
     def get(self, request, *args, **kwargs):
         auth_logout(request)
-        # messages.success(request, "Welcome back. Your account was logged out.")
         return super(LogoutView, self).get(request, *args, **kwargs)
