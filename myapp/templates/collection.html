@@ -23,16 +23,42 @@
                             <th>Country Of Origin</th>
                         </tr>
                     </thead>
-                    <tfoot>
+                    <tbody>
                         {% for line in results %}
                             <tr>
+                                <td>{{ line.book }}</td>
+                                <td>{{ line.page }}</td>
+                                <td>{{ line.row }}</td>
+                                <td>{{ line.column }}</td>
+                                <td>{{ line.currency }}</td>
+                                <td>{{ line.value }}</td>
+                                <td>{{ line.type }}</td>
+                                <td>{{ line.country }}</td>
                             </tr>
                         {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Book</th>
+                            <th>Page</th>
+                            <th>Row</th>
+                            <th>Column</th>
+                            <th>Currency</th>
+                            <th>Value</th>
+                            <th>Type</th>
+                            <th>Country Of Origin</th>
+                        </tr>
                     </tfoot>
                 </table>
             </div>
         </div>
      </div>
 </div>
-
 {% endblock content %}
+{% block extrajs %}
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+    });
+</script>
+{% endblock extrajs %}

@@ -1,5 +1,3 @@
-
-
 from django.contrib import messages
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth import login as auth_login
@@ -17,12 +15,58 @@ from django.views.generic import RedirectView
 
 from myapp.forms import LoginForm
 
+from myapp.models import Currency
+
+from pycountry import countries
+from pycountry import historic_countries
+
 
 class CollectionView(LoginRequiredMixin, View):
     t = "collection.html"
 
     def get(self, request):
         ctx = {}
+
+        currency = Currency.objects.all()
+
+        results = []
+
+        for line in currency:
+            line_info = {}
+            line_info["book"] = line.book
+            line_info["page"] = line.page
+            line_info["row"] = line.page
+            line_info["column"] = line.column
+            line_info["currency"] = line.currency
+            line_info["value"] = line.value
+            line_info["type"] = line.type
+
+            # Move to a function in the future.
+            country_code = None
+
+            # Hard-coded because CS was reused for a different country that now no longer exists.
+            if line.country == "CS":
+                country_code = "Czechoslovakia"
+            elif line.country == "CE":
+                # Multiple countries use this as their currency.
+                country_code = "Eastern Carribean Islands"
+            else:
+                try:
+                    country_code = countries.get(alpha_2=line.country).name
+                except Exception:
+                    pass
+
+                if not country_code:
+                    try:
+                        country_code = historic_countries.get(alpha_2=line.country).name
+                    except Exception:
+                        country_code = line.country
+
+            line_info["country"] = country_code
+            results.append(line_info)
+
+        ctx["results"] = results
+
         return render(request, self.t, ctx)
 
 

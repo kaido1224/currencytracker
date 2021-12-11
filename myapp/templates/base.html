@@ -30,8 +30,11 @@
 
         <!-- Custom scripts for all pages-->
         <script src="{% static 'sbadmin2/js/sb-admin-2.min.js' %}"></script>
+        
+        <!-- Datatables -->
+        <script src="{% static 'sbadmin2/vendor/datatables/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'sbadmin2/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
 
-        <!-- Page level plugins -->
         <script src="{% static 'sbadmin2/vendor/chart.js/Chart.min.js' %}"></script>
 
         <script type="text/javascript">
@@ -40,10 +43,6 @@
                 let url = window.location.pathname;
 
                 $('li.nav-item a[href="'+ url +'"]').parent().addClass('active');
-
-                // $('ul.nav a[href="'+ url +'"]').parent().addClass('active');
-                // $('ul.nav a[href="'+ url +'"]').parent().parent().parent().addClass('show')
-                // $('ul.nav a[href="'+ url +'"]').parent().parent().parent().prev().addClass('active').attr('aria-expanded', 'true');
             });
         </script>
         {% block extrajs %}
