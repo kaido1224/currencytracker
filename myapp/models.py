@@ -1,4 +1,14 @@
 from django.db import models
+from django.db.models.deletion import CASCADE
+
+
+class Book(models.Model):
+    description = models.CharField(max_length=100)
+    pages = models.IntegerField(null=True, default=None)
+
+    # Audit Fields.
+    created_ts = models.DateTimeField(auto_now_add=True)
+    updated_ts = models.DateTimeField(auto_now=True)
 
 
 class Currency(models.Model):
@@ -10,7 +20,7 @@ class Currency(models.Model):
         (Coin, "Coin")
     ]
 
-    book = models.IntegerField(null=True, default=None)
+    book = models.ForeignKey(Book, on_delete=CASCADE)
     page = models.IntegerField(null=True, default=None)
     row = models.IntegerField(null=True, default=None)
     column = models.IntegerField(null=True, default=None)

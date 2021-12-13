@@ -1,7 +1,9 @@
 asgiref==3.4.1
 backcall==0.2.0
+beautifulsoup4==4.10.0
 decorator==5.1.0
 Django==3.2.9
+django-bootstrap4==21.1
 flake8==4.0.1
 ipython==7.30.1
 jedi==0.18.1
@@ -18,6 +20,7 @@ pycountry==20.7.3
 pyflakes==2.4.0
 Pygments==2.10.0
 pytz==2021.3
+soupsieve==2.3.1
 sqlparse==0.4.2
 traitlets==5.1.1
 wcwidth==0.2.5

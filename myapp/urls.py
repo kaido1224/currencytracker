@@ -8,6 +8,7 @@ app_name = "myapp"
 urlpatterns = [
     path('', currency_views.IndexView.as_view(), name='index'),
     path('collection', currency_views.CollectionView.as_view(), name="collection"),
+    path('collection/add', currency_views.AddEntryView.as_view(), name="add_entry"),
 
     # Authorization pages.
     path('login/', currency_views.LoginView.as_view(), name='login'),

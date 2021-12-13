@@ -1,0 +1,50 @@
+{% extends "nav.html" %}
+{% load bootstrap4 %}
+{% block pageheader %}
+    <h1 class="h3 mb-4 text-gray-800">Add New Entry</h1>
+{% endblock pageheader %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card card-body">
+                <form id="form" action="{% url "myapp:add_entry" %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% bootstrap_field form.book %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            {% bootstrap_field form.page %}
+                        </div>
+                        <div class="col-md-4">
+                            {% bootstrap_field form.row %}
+                        </div>
+                        <div class="col-md-4">
+                            {% bootstrap_field form.column %}
+                        </div>
+                        
+                    </div>
+                     <div class="float-right">
+                        <a href="{% url 'myapp:collection' %}" class="btn btn-link">Cancel</a>
+                        <button name="_create_another" id="btn-submit-2" type="submit" class="btn btn-outline-primary" title="Create low inventory threshold and create another.">Create Another</button>
+                        <button id="btn-submit" type="submit" class="btn btn-primary" title="Create low inventory threshold and return to threshold management.">Submit</button>
+                    </div>
+                </form>
+            </div><!--card-->
+        </div><!--col-->
+    </div><!--row-->
+{% endblock content %}
+{% block extrajs %}
+<script type="text/javascript">
+    $("document").ready(function() {
+        //Check how many books there are. If there is only one, change focus to page and slot.
+        if ($("#id_book").children().length === 1) {
+            $("#id_page").focus();
+        } else {
+            $("#id_book").focus();
+        }
+    });
+</script>
+{% endblock extrajs %}

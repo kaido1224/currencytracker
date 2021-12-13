@@ -13,12 +13,23 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import FormView
 from django.views.generic import RedirectView
 
-from myapp.forms import LoginForm
+from myapp import forms
 
 from myapp.models import Currency
 
 from pycountry import countries
 from pycountry import historic_countries
+
+
+class AddEntryView(LoginRequiredMixin, View):
+    t = "add_entry.html"
+
+    def get(self, request):
+        ctx = {}
+
+        ctx["form"] = forms.CreateEntryForm()
+
+        return render(request, self.t, ctx)
 
 
 class CollectionView(LoginRequiredMixin, View):
@@ -82,12 +93,12 @@ class LoginView(FormView):
     """Basic login screen.
     """
     success_url = "/"
-    form_class = LoginForm
+    form_class = forms.LoginForm
     redirect_field_name = REDIRECT_FIELD_NAME
     template_name = 'login.html'
 
     def get_form_kwargs(self):
-        """The kwargs that will get passed to the form constructor.
+        """The kwargs passed to the form constructor.
 
         Inherted from `FormMixin`.
         """

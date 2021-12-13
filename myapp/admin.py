@@ -1,10 +1,18 @@
 from django.contrib import admin
 
-from myapp.models import Currency
+from myapp import models
 
 
-@admin.register(Currency)
-class FacilityAdmin(admin.ModelAdmin):
+@admin.register(models.Book)
+class BookAdmin(admin.ModelAdmin):
+    list_display = ["id", "description", "pages"]
+    ordering = ["id"]
+    read_only_fields = ["created_ts", "updated_ts"]
+    search_fields = ["description"]
+
+
+@admin.register(models.Currency)
+class CurrencyAdmin(admin.ModelAdmin):
     list_display = ["id", "currency", "type", "value", "country", "book", "page", "row", "column"]
     ordering = ["id"]
     read_only_fields = ["created_ts", "updated_ts"]
