@@ -3,6 +3,7 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import redirect
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.utils.http import is_safe_url
@@ -31,6 +32,26 @@ class AddEntryView(LoginRequiredMixin, View):
 
         return render(request, self.t, ctx)
 
+    def post(self, request):
+        ctx = {}
+
+        form = forms.CreateEntryForm(request.POST)
+
+        if not form.is_valid():
+            messages.error(request, "Form is invalid, make appropriate corrections and try again.")
+            ctx["form"] = form
+            return render(request, self.t, ctx)
+
+        form.save()
+
+        messages.success(request, "Created new entry successfully.")
+
+        # Redirect to appropriate page based on button clicked.
+        if "_create_another" in request.POST:
+            return redirect("myapp:add_entry")
+        else:
+            return redirect("myapp:collection")
+
 
 class CollectionView(LoginRequiredMixin, View):
     t = "collection.html"
@@ -52,12 +73,11 @@ class CollectionView(LoginRequiredMixin, View):
             line_info["value"] = line.value
             line_info["type"] = line.type
 
-            # Move to a function in the future.
-            country_code = None
-
-            # Hard-coded because CS was reused for a different country that now no longer exists.
+            # Hard-coded because CS is used multiple times for different countries.
             if line.country == "CS":
                 country_code = "Czechoslovakia"
+            elif line.country == "MB":
+                country_code == "Serbia and Montenegro"
             elif line.country == "CE":
                 # Multiple countries use this as their currency.
                 country_code = "Eastern Carribean Islands"
@@ -65,7 +85,7 @@ class CollectionView(LoginRequiredMixin, View):
                 try:
                     country_code = countries.get(alpha_2=line.country).name
                 except Exception:
-                    pass
+                    country_code = None
 
                 if not country_code:
                     try:

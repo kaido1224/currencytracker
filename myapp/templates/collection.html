@@ -6,7 +6,16 @@
  <div class="container-fluid">
      <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">My Collection</h6>
+            <div class="row">
+                <div class="col-md-11">
+                    <h6 class="m-0 font-weight-bold text-primary">My Collection</h6>
+                </div>
+                <div class="col-md-1">
+                    <a href="{% url "myapp:add_entry" %}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Create a new collection entry.">
+                        Add Entry
+                    </a>
+                </div>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">

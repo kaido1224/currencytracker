@@ -1,3 +1,5 @@
+import pycountry
+
 from django import forms
 
 from django.contrib.auth.forms import AuthenticationForm
@@ -7,24 +9,31 @@ from myapp import models
 
 
 class CreateEntryForm(forms.ModelForm):
+    book = forms.ModelChoiceField(models.Book.objects.all(), required=True,
+                                  to_field_name='description')
+
     def __init__(self, *args, **kwargs):
-        books = models.Book.objects.all()
+        countries = [(country.alpha_2, country.name) for country in pycountry.countries]
 
-        book_choices = [(b.description, b.description) for b in books]
+        countries.insert(0, ("", "-" * 9))
 
-        if len(book_choices) > 1:
-            book_choices.insert(0, ("", "-" * 9))
+        historic = [(country.alpha_2, country.name) for country in pycountry.historic_countries if
+                    not country.name == "Serbia and Montenegro"]
+
+        countries.extend(historic)
+
+        # These are non-iso coded countries.
+        custom_countries = [
+            ("CE", "Eastern Carribean Islands"),
+            ("MB", "Serbia and Montenegro")
+        ]
+
+        countries.extend(custom_countries)
+
+        countries.sort()
 
         super().__init__(*args, **kwargs)
-        self.fields["book"] = forms.ChoiceField(choices=book_choices)
-
-#     page = models.IntegerField(null=True, default=None)
-#     row = models.IntegerField(null=True, default=None)
-#     column = models.IntegerField(null=True, default=None)
-#     currency = models.CharField(max_length=100, blank=True, default="")
-#     value = models.IntegerField(null=True, default=None)
-#     type = models.CharField(max_length=4, choices=TYPE_CHOICES)
-#     country = models.CharField(max_length=2, blank=True, default="")
+        self.fields["country"] = forms.ChoiceField(choices=countries)
 
     class Meta:
         model = models.Currency
