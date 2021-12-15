@@ -3,7 +3,7 @@
     <h1 class="h3 mb-4 text-gray-800">Collection Management</h1>
 {% endblock pageheader %}
 {% block content %}
- <div class="container-fluid">
+
      <div class="card shadow mb-4">
         <div class="card-header py-3">
             <div class="row">
@@ -30,6 +30,8 @@
                             <th>Value</th>
                             <th>Type</th>
                             <th>Country Of Origin</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,6 +45,22 @@
                                 <td>{{ line.value }}</td>
                                 <td>{{ line.type }}</td>
                                 <td>{{ line.country }}</td>
+                                <td style="text-align:center" data-toggle="tooltip" data-placement="top" title="Update entry information.">
+                                    <a href="{% url "myapp:edit_entry" line.id %}" class="btn btn-sm btn-light btn-round">
+                                        <i class="fa fa-pen text-primary"></i>
+                                    </a>
+                                </td>
+                                <td style="text-align:center">
+                                    <form action="{% url "myapp:delete_entry" line.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-light btn-round" data-toggle="tooltip" data-placement="top" 
+                                            title="Delete this collection entry."
+                                            onclick="return confirm('Are you sure you want to delete this entry? This action cannot be undone.')"
+                                        >
+                                            <i class="fa fa-trash text-danger"></i>
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -56,13 +74,15 @@
                             <th>Value</th>
                             <th>Type</th>
                             <th>Country Of Origin</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                         </tr>
                     </tfoot>
                 </table>
             </div>
         </div>
      </div>
-</div>
+
 {% endblock content %}
 {% block extrajs %}
 <script>

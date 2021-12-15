@@ -22,20 +22,66 @@ from pycountry import countries
 from pycountry import historic_countries
 
 
+class DeleteEntryView(LoginRequiredMixin, View):
+    def post(self, request, id):
+        try:
+            Currency.objects.get(pk=id).delete()
+
+            messages.success(request, "Successfully deleted entry.")
+
+        except Currency.DoesNotExist:
+            messages.error(request, "Failed to delete entry.")
+
+        return redirect("myapp:collection")
+
+
 class AddEntryView(LoginRequiredMixin, View):
     t = "add_entry.html"
 
-    def get(self, request):
+    def get_entry_info(self, id):
+        """Attempt to get entry based on ID specified. If there was an error, this will return None.
+        """
+        try:
+            results = Currency.objects.get(pk=id)
+        except Currency.DoesNotExist:
+            return None
+
+        return results
+
+    def get(self, request, id=None):
         ctx = {}
 
-        ctx["form"] = forms.CreateEntryForm()
+        # If editing an existing entry.
+        if id:
+            entry = self.get_entry_info(id)
+
+            if not entry:
+                messages.error(request, "Invalid entry specified.")
+                return redirect("myapp:collection")
+
+            ctx["form"] = forms.EntryForm(instance=entry, initial={"book": entry.book})
+            ctx["entry"] = entry
+
+        else:
+            ctx["form"] = forms.EntryForm()
 
         return render(request, self.t, ctx)
 
-    def post(self, request):
+    def post(self, request, id=None):
         ctx = {}
 
-        form = forms.CreateEntryForm(request.POST)
+        # If editing an existing entry
+        if id:
+            entry = self.get_entry_info(id)
+            ctx["entry"] = entry
+
+            if not entry:
+                messages.error(request, "Invalid entry specified.")
+                return redirect("myapp:collection")
+
+            form = forms.EntryForm(request.POST, instance=entry)
+        else:
+            form = forms.EntryForm(request.POST)
 
         if not form.is_valid():
             messages.error(request, "Form is invalid, make appropriate corrections and try again.")
@@ -44,7 +90,12 @@ class AddEntryView(LoginRequiredMixin, View):
 
         form.save()
 
-        messages.success(request, "Created new entry successfully.")
+        if id:
+            message = "Updated entry successfully."
+        else:
+            message = "Created new entry successfully."
+
+        messages.success(request, message)
 
         # Redirect to appropriate page based on button clicked.
         if "_create_another" in request.POST:
@@ -65,6 +116,7 @@ class CollectionView(LoginRequiredMixin, View):
 
         for line in currency:
             line_info = {}
+            line_info["id"] = line.id
             line_info["book"] = line.book
             line_info["page"] = line.page
             line_info["row"] = line.page

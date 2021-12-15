@@ -1,13 +1,21 @@
 {% extends "nav.html" %}
 {% load bootstrap4 %}
 {% block pageheader %}
-    <h1 class="h3 mb-4 text-gray-800">Add New Entry</h1>
+    {% if entry %}
+        <h1 class="h3 mb-4 text-gray-800">Edit Entry</h1>
+    {% else %}
+        <h1 class="h3 mb-4 text-gray-800">Add New Entry</h1>
+    {% endif %}
 {% endblock pageheader %}
 {% block content %}
     <div class="row">
         <div class="col-md-5">
             <div class="card card-body">
-                <form id="form" action="{% url "myapp:add_entry" %}" method="POST">
+                {% if entry %}
+                    <form id="form" action="{% url "myapp:edit_entry" entry.id %}" method="POST">
+                {% else %}
+                    <form id="form" action="{% url "myapp:add_entry" %}" method="POST">
+                {% endif %}
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-md-12">
@@ -43,10 +51,15 @@
                             {% bootstrap_field form.country %}
                         </div>
                     </div>
-                     <div class="float-right">
+                    <div class="float-right">
                         <a href="{% url 'myapp:collection' %}" class="btn btn-link">Cancel</a>
-                        <button name="_create_another" id="btn-submit-2" type="submit" class="btn btn-outline-primary" title="Create new entry and create another.">Create Another</button>
-                        <button id="btn-submit" type="submit" class="btn btn-primary" title="Create new entry and return to collection management.">Submit</button>
+
+                        {% if entry %}
+                            <button id="btn-submit" type="submit" class="btn btn-primary" title="Submit edits for entry.">Submit</button>
+                        {% else %}
+                            <button name="_create_another" id="btn-submit-2" type="submit" class="btn btn-outline-primary" title="Create new entry and create another.">Create Another</button>
+                            <button id="btn-submit" type="submit" class="btn btn-primary" title="Create new entry and return to collection management.">Submit</button>
+                        {% endif %}
                     </div>
                 </form>
             </div><!--card-->
@@ -54,7 +67,9 @@
     </div><!--row-->
 {% endblock content %}
 {% block extrajs %}
-<script type="text/javascript">
+<script>
+    const test = "{{ entry.book.description }}"
+
     $("document").ready(function() {
         //Check how many books there are. If there is only one, change focus to page and slot.
         if ($("#id_book").children().length === 1) {

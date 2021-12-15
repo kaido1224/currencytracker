@@ -8,7 +8,7 @@ from django.contrib.auth.forms import UsernameField
 from myapp import models
 
 
-class CreateEntryForm(forms.ModelForm):
+class EntryForm(forms.ModelForm):
     book = forms.ModelChoiceField(models.Book.objects.all(), required=True,
                                   to_field_name='description')
 
