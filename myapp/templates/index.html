@@ -23,6 +23,31 @@
     </div>
     <div id="coin-map" class="am-map"></div>
 </div>
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3>Missing Countries</h3>
+            </div>
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>ISO-2 Code</th>
+                        <th>Country Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line in missing_coin_countries %}
+                    <tr>
+                        <td>{{ line.0 }}</td>
+                        <td>{{ line.1 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock content %}
 {% block extrajs %}
 <script src="https://www.amcharts.com/lib/3/ammap.js" type="text/javascript"></script>
@@ -66,6 +91,10 @@ let coinMap = AmCharts.makeChart("coin-map",
         rollOverColor : "#9EC2F7",
         rollOverOutlineColor : "#000000"
     }
+});
+
+$(document).ready(function() {
+    $('#dataTable').DataTable();
 });
 </script>
 {% endblock extrajs %}

@@ -1,4 +1,5 @@
 import json
+import pycountry
 
 from django.contrib import messages
 from django.contrib.auth import REDIRECT_FIELD_NAME
@@ -108,7 +109,7 @@ class CollectionView(LoginRequiredMixin, View):
             line_info["id"] = line.id
             line_info["book"] = line.book
             line_info["page"] = line.page
-            line_info["row"] = line.page
+            line_info["row"] = line.row
             line_info["column"] = line.column
             line_info["currency"] = line.currency
             line_info["value"] = line.value
@@ -160,10 +161,21 @@ class IndexView(LoginRequiredMixin, View):
 
     def get(self, request):
         ctx = {}
-
+        # Collection of coins by country.
         coin_countries = (Currency.objects.filter(type="Coin").distinct()
                                   .values_list("country", flat=True))
-        ctx["coin_countries"] = json.dumps(list(coin_countries))
+        coin_countries = list(coin_countries)
+        ctx["coin_countries"] = json.dumps(coin_countries)
+
+        countries = [(country.alpha_2, country.name) for country in pycountry.countries]
+
+        coin_missing_countries = []
+
+        for line in countries:
+            if line[0] not in coin_countries:
+                coin_missing_countries.append(line)
+
+        ctx["missing_coin_countries"] = coin_missing_countries
 
         return render(request, self.t, ctx)
 
