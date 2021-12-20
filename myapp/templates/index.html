@@ -1,6 +1,71 @@
 {% extends "nav.html" %}
+{% block extrahead %}
+<style type="text/css">
+    .am-map {
+        width: 1500px;
+        height: 600px;
+        /* font-size: 70%;
+        padding: 5px 0;
+        margin-top: 1px;
+        text-align: center;
+        background-color: #535364;
+        color: #B4B4B7; */
+    }
+</style>
+{% endblock extrahead %}
 {% block pageheader %}
     <h1 class="h3 mb-4 text-gray-800">Home</h1>
 {% endblock pageheader %}
 {% block content %}
+<div class="card am-map">
+    <div class="card-header">
+        <h3>Coin Collection</h3>
+    </div>
+    <div id="coin-map" class="am-map"></div>
+</div>
 {% endblock content %}
+{% block extrajs %}
+<script src="https://www.amcharts.com/lib/3/ammap.js" type="text/javascript"></script>
+<script src="https://www.amcharts.com/lib/3/maps/js/worldHigh.js" type="text/javascript"></script>
+<script src="https://www.amcharts.com/lib/3/themes/dark.js" type="text/javascript"></script>
+<script type="text/javascript">
+const coinCountryJson = "{{ coin_countries | escapejs }}";
+const coinCountryCodes = (JSON.parse(coinCountryJson));
+
+let coinCountryList = [];
+
+$.each(coinCountryCodes, function(key, value) {
+    let country = {};
+    country["id"] = value;
+    country["showAsSelected"] = true;
+    coinCountryList.push(country);
+});
+
+let coinMap = AmCharts.makeChart("coin-map", 
+    {
+        type: "map",
+        theme: "dark",
+        projection: "mercator",
+        panEventsEnabled : true,
+        backgroundColor : "#535364",
+        backgroundAlpha : 1,
+        zoomControl: {
+        zoomControlEnabled : true
+    },
+    dataProvider : {
+        map : "worldHigh",
+        getAreasFromMap : true,
+        areas : coinCountryList
+    },
+    areasSettings : {
+        autoZoom : true,
+        color : "#B4B4B7",
+        colorSolid : "#84ADE9",
+        selectedColor : "#84ADE9",
+        outlineColor : "#666666",
+        rollOverColor : "#9EC2F7",
+        rollOverOutlineColor : "#000000"
+    }
+});
+</script>
+{% endblock extrajs %}

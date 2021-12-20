@@ -1,3 +1,5 @@
+import json
+
 from django.contrib import messages
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth import login as auth_login
@@ -20,19 +22,6 @@ from myapp.models import Currency
 
 from pycountry import countries
 from pycountry import historic_countries
-
-
-class DeleteEntryView(LoginRequiredMixin, View):
-    def post(self, request, id):
-        try:
-            Currency.objects.get(pk=id).delete()
-
-            messages.success(request, "Successfully deleted entry.")
-
-        except Currency.DoesNotExist:
-            messages.error(request, "Failed to delete entry.")
-
-        return redirect("myapp:collection")
 
 
 class AddEntryView(LoginRequiredMixin, View):
@@ -153,11 +142,29 @@ class CollectionView(LoginRequiredMixin, View):
         return render(request, self.t, ctx)
 
 
+class DeleteEntryView(LoginRequiredMixin, View):
+    def post(self, request, id):
+        try:
+            Currency.objects.get(pk=id).delete()
+
+            messages.success(request, "Successfully deleted entry.")
+
+        except Currency.DoesNotExist:
+            messages.error(request, "Failed to delete entry.")
+
+        return redirect("myapp:collection")
+
+
 class IndexView(LoginRequiredMixin, View):
     t = "index.html"
 
     def get(self, request):
         ctx = {}
+
+        coin_countries = (Currency.objects.filter(type="Coin").distinct()
+                                  .values_list("country", flat=True))
+        ctx["coin_countries"] = json.dumps(list(coin_countries))
+
         return render(request, self.t, ctx)
 
 

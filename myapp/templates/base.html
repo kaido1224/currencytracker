@@ -19,7 +19,8 @@
 
         <!--Datatables-->
         <link href="{% static 'sbadmin2/vendor/datatables/dataTables.bootstrap4.min.css' %}" rel="stylesheet">
-        
+        {% block extrahead %}
+        {%endblock extrahead %}
     </head>
     <body {% block body-attrs %}{% endblock body-attrs %} id="page-top">
         {% block body %}
@@ -37,8 +38,6 @@
         <!-- Datatables -->
         <script src="{% static 'sbadmin2/vendor/datatables/jquery.dataTables.min.js' %}"></script>
         <script src="{% static 'sbadmin2/vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
-
-        <script src="{% static 'sbadmin2/vendor/chart.js/Chart.min.js' %}"></script>
 
         <script type="text/javascript">
             $(document).ready(function () {
