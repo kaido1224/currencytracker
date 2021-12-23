@@ -1,24 +1,114 @@
-from typing import Collection
 from django import test
 
-from myapp import models
 from myapp import utils
 
 
 class PopulateCountryListTest(test.TestCase):
     def test_carribean_islands(self):
-        """Ensure the correct countries are returned when Eastern Carribean Islands is specified as
-        the country.
+        """Ensure correct countries are returned when Eastern Carribean Islands is specified as
+        a country.
         """
-
-        # Create book
-        book = models.Book.objects.create(description="Test 1")
-
-        # Create test collection value
-        models.Currency.objects.create(book=book, value="1", country="CE")
-
         results = utils.populate_country_list(["CE"])
 
         expected = ["AI", "AG", "DM", "GD", "MS", "KN", "LC", "VC"]
+
+        self.assertListEqual(results, expected)
+
+    def test_west_africa(self):
+        """Ensure correct countries are returned when West Africa CFA is specified as a country.
+        """
+        results = utils.populate_country_list(["WA"])
+
+        expected = ["BF", "BJ", "CI", "GW", "ML", "NE", "SN", "TG"]
+
+        self.assertListEqual(results, expected)
+
+    def test_central_africa(self):
+        """Ensure correct countries are returned when Central Africa CFA is specified as a country.
+        """
+        results = utils.populate_country_list(["AA"])
+
+        expected = ["CF", "CG", "CM", "GA", "GQ", "TD"]
+
+        self.assertListEqual(results, expected)
+
+    def test_united_states(self):
+        """Ensure correct countries are returned when United States of America is specified as a country.
+        """
+        results = utils.populate_country_list(["US"])
+
+        expected = ["AS", "BQ", "FM", "GU", "MH", "MP", "PR", "TC", "UM", "US", "VG", "VI"]
+
+        self.assertListEqual(results, expected)
+
+    def test_finland(self):
+        """Ensure correct countries are returned when Finland is specified as a country.
+        """
+        results = utils.populate_country_list(["FI"])
+
+        expected = ["AX", "FI"]
+
+        self.assertListEqual(results, expected)
+
+    def test_france(self):
+        """Ensure correct countries are returned when France is specified as a country.
+        """
+        results = utils.populate_country_list(["FR"])
+
+        expected = ["BL", "FR", "MC", "MF", "MQ", "PM", "RE", "TF", "YT"]
+
+        self.assertListEqual(results, expected)
+
+    def test_norway(self):
+        """Ensure correct countries are returned when Norway is specified as a country.
+        """
+        results = utils.populate_country_list(["NO"])
+
+        expected = ["BV", "NO", "SJ"]
+
+        self.assertListEqual(results, expected)
+
+    def test_australia(self):
+        """Ensure correct countries are returned when Australia is specified as a country.
+        """
+        results = utils.populate_country_list(["AU"])
+
+        expected = ["AU", "CC", "CX", "HM", "NF", "NR", "TV"]
+
+        self.assertListEqual(results, expected)
+
+    def test_denmark(self):
+        """Ensure correct countries are returned when Denmark is specified as a country.
+        """
+        results = utils.populate_country_list(["DK"])
+
+        expected = ["DK", "FO", "GL"]
+
+        self.assertListEqual(results, expected)
+
+    def test_united_kingdom(self):
+        """Ensure correct countries are returned when United Kingdom is specified as a country.
+        """
+        results = utils.populate_country_list(["GB"])
+
+        expected = ["GB", "GS", "IO"]
+
+        self.assertListEqual(results, expected)
+
+    def test_new_zealand(self):
+        """Ensure correct countries are returned when New Zealand is specified as a country.
+        """
+        results = utils.populate_country_list(["NZ"])
+
+        expected = ["NU", "NZ", "PN", "TK"]
+
+        self.assertListEqual(results, expected)
+
+    def test_israel(self):
+        """Ensure correct countries are returned when Israel is specified as a country.
+        """
+        results = utils.populate_country_list(["IL"])
+
+        expected = ["IL", "PS"]
 
         self.assertListEqual(results, expected)

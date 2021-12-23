@@ -24,8 +24,10 @@ class EntryForm(forms.ModelForm):
 
         # These are non-iso coded countries.
         custom_countries = [
+            ("AA", "Central Africa CFA"),
             ("CE", "Eastern Carribean Islands"),
-            ("MB", "Serbia and Montenegro")
+            ("MB", "Serbia and Montenegro"),
+            ("WA", "West Africa CFA")
         ]
 
         countries.extend(custom_countries)

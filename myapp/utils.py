@@ -1,12 +1,9 @@
-from myapp.models import Currency
-
-
 def populate_country_list(country_list):
     """Some currency is used by multiple country codes, this will populate the appropriate countries
     for these scenarios so that missing countries are not populated incorrectly.
 
     Arguments:
-    country_list: A list of country codes to be sorted through.
+    country_list: A list of country codes from your collection.
 
     Returns:
         A list of country codes.
