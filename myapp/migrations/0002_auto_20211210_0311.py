@@ -145,7 +145,7 @@ class Migration(migrations.Migration):
             currency(book=book_1, page=3, row=1, column=3, currency="Lire",
                      value=20, type="Coin", country="IT"),
             currency(book=book_1, page=3, row=1, column=4, currency="Sengi",
-                     value=10, type="Coin", country="CG"),
+                     value=10, type="Coin", country="CD"),
             currency(book=book_1, page=3, row=1, column=5, currency="Centimes",
                      value=10, type="Coin", country="FR"),
             currency(book=book_1, page=3, row=2, column=1, currency="Centimes",

@@ -18,7 +18,7 @@ from django.views.generic import FormView
 from django.views.generic import RedirectView
 
 from myapp import forms
-
+from myapp import utils
 from myapp.models import Currency
 
 from pycountry import countries
@@ -123,6 +123,12 @@ class CollectionView(LoginRequiredMixin, View):
             elif line.country == "CE":
                 # Multiple countries use this as their currency.
                 country_code = "Eastern Carribean Islands"
+            elif line.country == "WA":
+                # Multiple countries use this as their currency.
+                country_code = "West Africa CFA"
+            elif line.country == "AA":
+                # Multiple countries use this as their currency.
+                country_code = "Central Africa CFA"
             else:
                 try:
                     country_code = countries.get(alpha_2=line.country).name
@@ -161,21 +167,21 @@ class IndexView(LoginRequiredMixin, View):
 
     def get(self, request):
         ctx = {}
-        # Collection of coins by country.
-        coin_countries = (Currency.objects.filter(type="Coin").distinct()
-                                  .values_list("country", flat=True))
-        coin_countries = list(coin_countries)
-        ctx["coin_countries"] = json.dumps(coin_countries)
+
+        country_list = utils.populate_country_list()
+
+        ctx["countries"] = json.dumps(country_list)
 
         countries = [(country.alpha_2, country.name) for country in pycountry.countries]
 
-        coin_missing_countries = []
+        # Get a list of countries missing from our collection.
+        missing_countries = []
 
         for line in countries:
-            if line[0] not in coin_countries:
-                coin_missing_countries.append(line)
+            if line[0] not in country_list:
+                missing_countries.append(line)
 
-        ctx["missing_coin_countries"] = coin_missing_countries
+        ctx["missing_countries"] = missing_countries
 
         return render(request, self.t, ctx)
 
