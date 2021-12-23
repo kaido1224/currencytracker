@@ -168,7 +168,10 @@ class IndexView(LoginRequiredMixin, View):
     def get(self, request):
         ctx = {}
 
-        country_list = utils.populate_country_list()
+        countries = (Currency.objects.filter(type="Coin").distinct()
+                             .values_list("country", flat=True))
+
+        country_list = utils.populate_country_list(list(countries))
 
         ctx["countries"] = json.dumps(country_list)
 

@@ -1,23 +1,19 @@
-import pycountry
-
 from myapp.models import Currency
 
 
-def populate_country_list():
+def populate_country_list(country_list):
     """Some currency is used by multiple country codes, this will populate the appropriate countries
     for these scenarios so that missing countries are not populated incorrectly.
+
+    Arguments:
+    country_list: A list of country codes to be sorted through.
 
     Returns:
         A list of country codes.
     """
     results = []
 
-    countries = (Currency.objects.filter(type="Coin").distinct()
-                         .values_list("country", flat=True))
-
-    countries_list = list(countries)
-
-    for country in countries_list:
+    for country in country_list:
         # Eastern Carribean Islands
         if country == "CE":
             results.extend(["AI", "AG", "DM", "GD", "MS", "KN", "LC", "VC"])
