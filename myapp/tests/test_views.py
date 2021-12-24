@@ -1,6 +1,7 @@
 from django import test
 
 from django.contrib.messages import get_messages
+from pycountry import Currencies
 
 from myapp import forms
 from myapp import models
@@ -232,3 +233,127 @@ class AddEntryViewTest(test.TestCase):
 
         self.assertEqual(messages[0], "Form is invalid, make appropriate corrections and try"
                          " again.")
+
+
+class DeleteEntryViewTest(test.TestCase):
+    def setUp(self):
+        user = tests.setup_test_user()
+        self.client.force_login(user=user)
+
+        # Create book record.
+        book = models.Book.objects.create(
+            description="My Other Test Book"
+        )
+
+        # Create currency record.
+        self.entry = models.Currency.objects.create(
+            book=book,
+            page=1,
+            row=3,
+            column=2,
+            value=5,
+            currency="Cent",
+            type="Coin",
+            country="US"
+        )
+
+    def test_results(self):
+        response = self.client.post(f"/collection/delete/{self.entry.id}")
+
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+
+        self.assertRedirects(response, "/collection", status_code=302,
+                             target_status_code=200, fetch_redirect_response=True)
+        self.assertEqual(messages[0], "Successfully deleted entry.")
+
+    def test_invalid_address(self):
+        invalid_entry = models.Currency.objects.count() + 1
+
+        response = self.client.post(f"/collection/delete/{invalid_entry}")
+
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+
+        self.assertRedirects(response, "/collection", status_code=302,
+                             target_status_code=200, fetch_redirect_response=True)
+        self.assertEqual(messages[0], "Failed to delete entry.")
+
+
+class CollectionViewTest(test.TestCase):
+    def setUp(self):
+        user = tests.setup_test_user()
+        self.client.force_login(user=user)
+
+    def test_results(self):
+        # Create book record.
+        book = models.Book.objects.create(
+            description="My Other Test Book"
+        )
+
+        # Create currency record.
+        entry = models.Currency.objects.create(
+            book=book,
+            page=1,
+            row=3,
+            column=2,
+            value=5,
+            currency="Cent",
+            type="Coin",
+            country="US"
+        )
+
+        response = self.client.get("/collection")
+
+        ctx = response.context
+
+        expected = {
+            "book": book,
+            "column": 2,
+            "country": "United States",
+            "currency": "Cent",
+            "id": entry.id,
+            "page": 1,
+            "row": 3,
+            "type": "Coin",
+            "value": 5
+        }
+
+        self.assertEqual(response.status_code, 200)
+        self.assertDictEqual(ctx["results"][-1], expected)
+
+    def test_country_czechoslovakia(self):
+        """Ensure that if CS is the country that Czechoslovakia is the country returned."""
+        # Create book record.
+        book = models.Book.objects.create(
+            description="My Other Test Book"
+        )
+
+        # Create currency record.
+        entry = models.Currency.objects.create(
+            book=book,
+            page=1,
+            row=3,
+            column=2,
+            value=5,
+            currency="Koruna",
+            type="Coin",
+            country="CS"
+        )
+
+        response = self.client.get("/collection")
+
+        ctx = response.context
+
+        expected = {
+            "book": book,
+            "column": 2,
+            "country": "Czechoslovakia",
+            "currency": "Koruna",
+            "id": entry.id,
+            "page": 1,
+            "row": 3,
+            "type": "Coin",
+            "value": 5
+        }
+
+        self.assertEqual(response.status_code, 200)
+        self.assertDictEqual(ctx["results"][-1], expected)
