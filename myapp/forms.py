@@ -35,7 +35,7 @@ class EntryForm(forms.ModelForm):
         countries.sort()
 
         super().__init__(*args, **kwargs)
-        self.fields["country"] = forms.ChoiceField(choices=countries)
+        self.fields["country"] = forms.ChoiceField(choices=countries, required=False)
 
     class Meta:
         model = models.Currency

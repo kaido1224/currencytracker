@@ -7,8 +7,7 @@ def setup_test_user():
     user = User.objects.create(
         username="test",
         password="12345",
-        is_active=True,
-        is_staff=False
+        is_active=True
     )
 
     return user

@@ -3,13 +3,11 @@ import datetime
 from django import test
 
 from myapp import forms
+from myapp import tests
 from myapp.models import Book
 
 
 class EntryFormTest(test.TestCase):
-    def setUp(self):
-        self.now = datetime.datetime.now()
-
     def form_data(self, **kwargs):
         data = {}
 
@@ -42,3 +40,36 @@ class EntryFormTest(test.TestCase):
         self.assertFalse(form.is_valid())
         self.assertEqual(len(errors), 1)
         self.assertEqual(form["book"].errors.as_data()[0].code, "required")
+
+    def test_country_not_specified(self):
+        """If country not specified, ensure it is still valid.
+        """
+        data = {
+            "country": ""
+        }
+
+        form = self.form_data(**data)
+
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_type(self):
+        """Ensure that if an invalid type is specified an error occurs.
+        """
+        data = {
+            "type": "Test"
+        }
+
+        form = self.form_data(**data)
+
+        errors = form.errors.as_data()
+
+        self.assertFalse(form.is_valid())
+        self.assertEqual(len(errors), 1)
+        self.assertEqual(form["type"].errors.as_data()[0].code, "invalid_choice")
+
+    def test_valid_form(self):
+        """Test what is expected to be valid results.
+        """
+        form = self.form_data()
+
+        self.assertTrue(form.is_valid())
