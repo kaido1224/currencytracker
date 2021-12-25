@@ -321,7 +321,8 @@ class CollectionViewTest(test.TestCase):
         self.assertDictEqual(ctx["results"][-1], expected)
 
     def test_country_czechoslovakia(self):
-        """Ensure that if CS is the country that Czechoslovakia is the country returned."""
+        """Ensure that if CS is the country that Czechoslovakia is the country returned.
+        """
         # Create book record.
         book = models.Book.objects.create(
             description="My Other Test Book"
@@ -357,3 +358,151 @@ class CollectionViewTest(test.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertDictEqual(ctx["results"][-1], expected)
+
+    def test_country_west_africa(self):
+        """Ensure that if WA is the country that West Africa CFA is the country returned.
+        """
+        # Create book record.
+        book = models.Book.objects.create(
+            description="My Other Test Book"
+        )
+
+        # Create currency record.
+        entry = models.Currency.objects.create(
+            book=book,
+            page=1,
+            row=3,
+            column=2,
+            value=5,
+            currency="Franc",
+            type="Coin",
+            country="WA"
+        )
+
+        response = self.client.get("/collection")
+
+        ctx = response.context
+
+        expected = {
+            "book": book,
+            "column": 2,
+            "country": "West Africa CFA",
+            "currency": "Franc",
+            "id": entry.id,
+            "page": 1,
+            "row": 3,
+            "type": "Coin",
+            "value": 5
+        }
+
+        self.assertEqual(response.status_code, 200)
+        self.assertDictEqual(ctx["results"][-1], expected)
+
+    def test_country_central_africa(self):
+        """Ensure that if WA is the country that Central Africa CFA is the country returned.
+        """
+        # Create book record.
+        book = models.Book.objects.create(
+            description="My Other Test Book"
+        )
+
+        # Create currency record.
+        entry = models.Currency.objects.create(
+            book=book,
+            page=1,
+            row=3,
+            column=2,
+            value=5,
+            currency="Franc",
+            type="Coin",
+            country="AA"
+        )
+
+        response = self.client.get("/collection")
+
+        ctx = response.context
+
+        expected = {
+            "book": book,
+            "column": 2,
+            "country": "Central Africa CFA",
+            "currency": "Franc",
+            "id": entry.id,
+            "page": 1,
+            "row": 3,
+            "type": "Coin",
+            "value": 5
+        }
+
+        self.assertEqual(response.status_code, 200)
+        self.assertDictEqual(ctx["results"][-1], expected)
+
+    def test_country_eastern_carribean(self):
+        """Ensure that if CE is the country that Eastern Carribean is the country returned.
+        """
+        # Create book record.
+        book = models.Book.objects.create(
+            description="My Other Test Book"
+        )
+
+        # Create currency record.
+        entry = models.Currency.objects.create(
+            book=book,
+            page=1,
+            row=3,
+            column=2,
+            value=5,
+            currency="Cent",
+            type="Coin",
+            country="CE"
+        )
+
+        response = self.client.get("/collection")
+
+        ctx = response.context
+
+        expected = {
+            "book": book,
+            "column": 2,
+            "country": "Eastern Carribean Islands",
+            "currency": "Cent",
+            "id": entry.id,
+            "page": 1,
+            "row": 3,
+            "type": "Coin",
+            "value": 5
+        }
+
+        self.assertEqual(response.status_code, 200)
+        self.assertDictEqual(ctx["results"][-1], expected)
+
+
+class IndexViewTest(test.TestCase):
+    def test_results(self):
+        user = tests.setup_test_user()
+        self.client.force_login(user=user)
+
+        # Create book record.
+        book = models.Book.objects.create(
+            description="My Other Test Book"
+        )
+
+        # Create currency record.
+        models.Currency.objects.create(
+            book=book,
+            page=1,
+            row=3,
+            column=2,
+            value=5,
+            currency="Franc",
+            type="Coin",
+            country="WA"
+        )
+
+        response = self.client.get("/")
+
+        ctx = response.context
+
+        # Ensure these context values are present.
+        self.assertIsNotNone(ctx["countries"])
+        self.assertIsNotNone(ctx["missing_countries"])
