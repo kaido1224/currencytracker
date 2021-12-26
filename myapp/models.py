@@ -28,7 +28,7 @@ class Currency(models.Model):
     row = models.IntegerField(null=True, default=None)
     column = models.IntegerField(null=True, default=None)
     currency = models.CharField(max_length=100, blank=True, default="")
-    value = models.IntegerField(null=True, default=None)
+    value = models.DecimalField(max_digits=19, decimal_places=2, null=True, default=None)
     type = models.CharField(max_length=4, choices=TYPE_CHOICES)
     country = models.CharField(max_length=2, blank=True, default="")
 
