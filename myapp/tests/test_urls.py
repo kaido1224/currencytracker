@@ -13,6 +13,22 @@ class PageLinksTest(test.TestCase):
         response = self.client.get(reverse("myapp:index"), follow=True)
         self.assertEqual(response.status_code, 200)
 
+    def test_books_page(self):
+        response = self.client.get("/books", follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_books_page_by_name(self):
+        response = self.client.get(reverse("myapp:books"), follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_book_page(self):
+        response = self.client.get("/books/add", follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_book_page_by_name(self):
+        response = self.client.get(reverse("myapp:add_book"), follow=True)
+        self.assertEqual(response.status_code, 200)
+
     def test_collection_page(self):
         response = self.client.get("/collection", follow=True)
         self.assertEqual(response.status_code, 200)

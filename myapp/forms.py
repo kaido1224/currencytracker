@@ -8,6 +8,16 @@ from django.contrib.auth.forms import UsernameField
 from myapp import models
 
 
+class BookForm(forms.ModelForm):
+    rows_per_page = forms.IntegerField(label="Rows Per Page", required=False, min_value=0)
+    columns_per_row = forms.IntegerField(label="Columns Per Row", required=False, min_value=0)
+    pages = forms.IntegerField(required=False, min_value=0)
+
+    class Meta:
+        model = models.Book
+        exclude = ["id", "created_ts", "updated_ts"]
+
+
 class EntryForm(forms.ModelForm):
     book = forms.ModelChoiceField(models.Book.objects.all(), required=True,
                                   to_field_name='description')

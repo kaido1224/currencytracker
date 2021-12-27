@@ -6,7 +6,13 @@ from . import views as currency_views
 app_name = "myapp"
 
 urlpatterns = [
-    path('', currency_views.IndexView.as_view(), name='index'),
+    path('', currency_views.IndexView.as_view(), name="index"),
+
+    # Book pages
+    path('books', currency_views.BookView.as_view(), name="books"),
+    path('books/add', currency_views.AddBookView.as_view(), name="add_book"),
+
+    # Collection pages
     path('collection', currency_views.CollectionView.as_view(), name="collection"),
     path('collection/add', currency_views.AddEntryView.as_view(), name="add_entry"),
     path('collection/delete/<int:id>', currency_views.DeleteEntryView.as_view(), name="delete_entry"),

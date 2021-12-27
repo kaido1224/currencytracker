@@ -1,7 +1,6 @@
 from django import test
 
 from django.contrib.messages import get_messages
-from pycountry import Currencies
 
 from myapp import forms
 from myapp import models
@@ -235,47 +234,26 @@ class AddEntryViewTest(test.TestCase):
                          " again.")
 
 
-class DeleteEntryViewTest(test.TestCase):
+class BookViewTest(test.TestCase):
     def setUp(self):
         user = tests.setup_test_user()
         self.client.force_login(user=user)
 
+    def test_results(self):
         # Create book record.
         book = models.Book.objects.create(
-            description="My Other Test Book"
+            description="My Book Test"
         )
 
-        # Create currency record.
-        self.entry = models.Currency.objects.create(
-            book=book,
-            page=1,
-            row=3,
-            column=2,
-            value=5,
-            currency="Cent",
-            type="Coin",
-            country="US"
-        )
+        response = self.client.get("/books")
 
-    def test_results(self):
-        response = self.client.post(f"/collection/delete/{self.entry.id}")
+        ctx = response.context
 
-        messages = [m.message for m in get_messages(response.wsgi_request)]
+        # Get last record
+        index = len(ctx["books"]) - 1
 
-        self.assertRedirects(response, "/collection", status_code=302,
-                             target_status_code=200, fetch_redirect_response=True)
-        self.assertEqual(messages[0], "Successfully deleted entry.")
-
-    def test_invalid_address(self):
-        invalid_entry = models.Currency.objects.count() + 1
-
-        response = self.client.post(f"/collection/delete/{invalid_entry}")
-
-        messages = [m.message for m in get_messages(response.wsgi_request)]
-
-        self.assertRedirects(response, "/collection", status_code=302,
-                             target_status_code=200, fetch_redirect_response=True)
-        self.assertEqual(messages[0], "Failed to delete entry.")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(ctx["books"][index], book)
 
 
 class CollectionViewTest(test.TestCase):
@@ -475,6 +453,49 @@ class CollectionViewTest(test.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertDictEqual(ctx["results"][-1], expected)
+
+
+class DeleteEntryViewTest(test.TestCase):
+    def setUp(self):
+        user = tests.setup_test_user()
+        self.client.force_login(user=user)
+
+        # Create book record.
+        book = models.Book.objects.create(
+            description="My Other Test Book"
+        )
+
+        # Create currency record.
+        self.entry = models.Currency.objects.create(
+            book=book,
+            page=1,
+            row=3,
+            column=2,
+            value=5,
+            currency="Cent",
+            type="Coin",
+            country="US"
+        )
+
+    def test_results(self):
+        response = self.client.post(f"/collection/delete/{self.entry.id}")
+
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+
+        self.assertRedirects(response, "/collection", status_code=302,
+                             target_status_code=200, fetch_redirect_response=True)
+        self.assertEqual(messages[0], "Successfully deleted entry.")
+
+    def test_invalid_address(self):
+        invalid_entry = models.Currency.objects.count() + 1
+
+        response = self.client.post(f"/collection/delete/{invalid_entry}")
+
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+
+        self.assertRedirects(response, "/collection", status_code=302,
+                             target_status_code=200, fetch_redirect_response=True)
+        self.assertEqual(messages[0], "Failed to delete entry.")
 
 
 class IndexViewTest(test.TestCase):

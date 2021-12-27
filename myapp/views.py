@@ -19,10 +19,44 @@ from django.views.generic import RedirectView
 
 from myapp import forms
 from myapp import utils
+from myapp.models import Book
 from myapp.models import Currency
 
 from pycountry import countries
 from pycountry import historic_countries
+
+
+class AddBookView(LoginRequiredMixin, View):
+    t = "add_book.html"
+
+    def get_book_info(self, id):
+        """Attempt to get book based on ID specified. If there was an error, this will return None.
+        """
+        try:
+            results = Book.objects.get(pk=id)
+        except Book.DoesNotExist:
+            return None
+
+        return results
+
+    def get(self, request, id=None):
+        ctx = {}
+
+        # If editing an existing entry.
+        if id:
+            book = self.get_book_info(id)
+
+            if not book:
+                messages.error(request, "Invalid book specified.")
+                return redirect("myapp:collection")
+
+            ctx["form"] = forms.BookForm(instance=book)
+            ctx["book"] = book
+
+        else:
+            ctx["form"] = forms.BookForm()
+
+        return render(request, self.t, ctx)
 
 
 class AddEntryView(LoginRequiredMixin, View):
@@ -92,6 +126,17 @@ class AddEntryView(LoginRequiredMixin, View):
             return redirect("myapp:add_entry")
         else:
             return redirect("myapp:collection")
+
+
+class BookView(LoginRequiredMixin, View):
+    t = "books.html"
+
+    def get(self, request):
+        ctx = {}
+
+        ctx["books"] = Book.objects.all()
+
+        return render(request, self.t, ctx)
 
 
 class CollectionView(LoginRequiredMixin, View):

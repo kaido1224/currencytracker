@@ -5,7 +5,7 @@ from myapp import models
 
 @admin.register(models.Book)
 class BookAdmin(admin.ModelAdmin):
-    list_display = ["id", "description", "pages"]
+    list_display = ["id", "description", "pages", "rows_per_page", "columns_per_row"]
     ordering = ["id"]
     read_only_fields = ["created_ts", "updated_ts"]
     search_fields = ["description"]

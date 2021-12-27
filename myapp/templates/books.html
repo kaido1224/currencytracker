@@ -1,0 +1,75 @@
+{% extends "nav.html" %}
+{% block pageheader %}
+    <h1 class="h3 mb-4 text-gray-800">Book Management</h1>
+{% endblock pageheader %}
+{% block content %}
+
+     <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="row">
+                <div class="col-md-11">
+                    <h6 class="m-0 font-weight-bold text-primary">My Book List</h6>
+                </div>
+                <div class="col-md-1">
+                    <a href="{% url "myapp:add_book" %}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Create a new book.">
+                        Add Book
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Pages</th>
+                            <th width="5%">&nbsp;&nbsp;Edit&nbsp;&nbsp;</th>
+                            <th width="5%">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in books %}
+                            <tr>
+                                <td>{{ book.description }}</td>
+                                <td>{{ book.pages }}</td>
+                                <td style="text-align:center" data-toggle="tooltip" data-placement="top" title="Update book information.">
+                                    <a href="{% url "myapp:edit_entry" book.id %}" class="btn btn-sm btn-light btn-round">
+                                        <i class="fa fa-pen text-primary"></i>
+                                    </a>
+                                </td>
+                                <td style="text-align:center">
+                                    <form action="{% url "myapp:delete_entry" book.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-light btn-round" data-toggle="tooltip" data-placement="top" 
+                                            title="Delete this book and all of it's entries."
+                                            onclick="return confirm('Are you sure you want to delete this book? This action cannot be undone.')"
+                                        >
+                                            <i class="fa fa-trash text-danger"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Description</th>
+                            <th>Pages</th>
+                            <th width="5%">&nbsp;&nbsp;Edit&nbsp;&nbsp;</th>
+                            <th width="5%">Delete</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+     </div>
+
+{% endblock content %}
+{% block extrajs %}
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+    });
+</script>
+{% endblock extrajs %}

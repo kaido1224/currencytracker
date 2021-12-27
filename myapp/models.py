@@ -5,6 +5,8 @@ from django.db.models.deletion import CASCADE
 class Book(models.Model):
     description = models.CharField(max_length=100)
     pages = models.IntegerField(null=True, default=None)
+    rows_per_page = models.IntegerField(null=True, default=None)
+    columns_per_row = models.IntegerField(null=True, default=None)
 
     # Audit Fields.
     created_ts = models.DateTimeField(auto_now_add=True)

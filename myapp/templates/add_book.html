@@ -1,0 +1,57 @@
+{% extends "nav.html" %}
+{% load bootstrap4 %}
+{% block pageheader %}
+    {% if entry %}
+        <h1 class="h3 mb-4 text-gray-800">Edit Entry</h1>
+    {% else %}
+        <h1 class="h3 mb-4 text-gray-800">Add New Entry</h1>
+    {% endif %}
+{% endblock pageheader %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card card-body">
+                {% if entry %}
+                    <form id="form" action="{% url "myapp:edit_book" book.id %}" method="POST">
+                {% else %}
+                    <form id="form" action="{% url "myapp:add_book" %}" method="POST">
+                {% endif %}
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% bootstrap_field form.description %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            {% bootstrap_field form.pages %}
+                        </div>
+                        <div class="col-md-4">
+                            {% bootstrap_field form.rows_per_page %}
+                        </div>
+                        <div class="col-md-4">
+                            {% bootstrap_field form.columns_per_row %}
+                        </div>
+                    </div>
+                    <div class="float-right">
+                        <a href="{% url 'myapp:collection' %}" class="btn btn-link">Cancel</a>
+
+                        {% if entry %}
+                            <button id="btn-submit" type="submit" class="btn btn-primary" title="Submit edits for entry.">Submit</button>
+                        {% else %}
+                            <button name="_create_another" id="btn-submit-2" type="submit" class="btn btn-outline-primary" title="Create new book and create another.">Create Another</button>
+                            <button id="btn-submit" type="submit" class="btn btn-primary" title="Create new book and return to book management.">Submit</button>
+                        {% endif %}
+                    </div>
+                </form>
+            </div><!--card-->
+        </div><!--col-->
+    </div><!--row-->
+{% endblock content %}
+{% block extrajs %}
+<script>
+    $("document").ready(function() {
+        $("#id_description").focus();
+    });
+</script>
+{% endblock extrajs %}
