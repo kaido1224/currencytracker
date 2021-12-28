@@ -24,6 +24,8 @@
                         <tr>
                             <th>Description</th>
                             <th>Pages</th>
+                            <th>Rows Per Page</th>
+                            <th>Columns Per Row</th>
                             <th width="5%">&nbsp;&nbsp;Edit&nbsp;&nbsp;</th>
                             <th width="5%">Delete</th>
                         </tr>
@@ -33,6 +35,8 @@
                             <tr>
                                 <td>{{ book.description }}</td>
                                 <td>{{ book.pages }}</td>
+                                <td>{{ book.rows_per_page }}</td>
+                                <td>{{ book.columns_per_row }}</td>
                                 <td style="text-align:center" data-toggle="tooltip" data-placement="top" title="Update book information.">
                                     <a href="{% url "myapp:edit_book" book.id %}" class="btn btn-sm btn-light btn-round">
                                         <i class="fa fa-pen text-primary"></i>
@@ -56,6 +60,8 @@
                         <tr>
                             <th>Description</th>
                             <th>Pages</th>
+                            <th>Rows Per Page</th>
+                            <th>Columns Per Row</th>
                             <th width="5%">&nbsp;&nbsp;Edit&nbsp;&nbsp;</th>
                             <th width="5%">Delete</th>
                         </tr>
