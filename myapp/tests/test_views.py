@@ -402,6 +402,7 @@ class BookViewTest(test.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(ctx["books"][index], book)
+        self.assertFalse(ctx["read_only_user"])
 
 
 class CollectionViewTest(test.TestCase):
@@ -445,6 +446,7 @@ class CollectionViewTest(test.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertDictEqual(ctx["results"][-1], expected)
+        self.assertFalse(ctx["read_only_user"])
 
     def test_country_czechoslovakia(self):
         """Ensure that if CS is the country that Czechoslovakia is the country returned.
@@ -632,7 +634,6 @@ class DeleteBookViewTest(test.TestCase):
         self.assertRedirects(response, "/books", status_code=302,
                              target_status_code=200, fetch_redirect_response=True)
         self.assertEqual(messages[0], "Failed to delete book.")
-
 
 
 class DeleteEntryViewTest(test.TestCase):

@@ -3,7 +3,7 @@ def populate_country_list(country_list):
     for these scenarios so that missing countries are not populated incorrectly.
 
     Arguments:
-    country_list: A list of country codes from your collection.
+        country_list: A list of country codes from your collection.
 
     Returns:
         A list of country codes.
@@ -51,3 +51,17 @@ def populate_country_list(country_list):
             results.append(country)
 
     return results
+
+
+def is_read_only_user(user):
+    """Determine if the supplied user is a read-only user or not.
+
+    Arguments:
+        user: A user object.
+
+    Returns:
+        Boolean (True/False)
+    """
+    groups = user.groups.values_list("name", flat=True)
+
+    return "Read_Only" in groups

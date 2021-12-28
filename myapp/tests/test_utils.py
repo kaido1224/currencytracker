@@ -1,6 +1,30 @@
+
+
+from unittest import result
 from django import test
 
+from myapp import tests
 from myapp import utils
+
+
+class IsReadOnlyUserTest(test.TestCase):
+    def test_read_only_user(self):
+        """Test a user whom is in the group Read_Only and ensure this returns True.
+        """
+        user = tests.setup_test_user(True)
+
+        results = utils.is_read_only_user(user)
+
+        self.assertTrue(results)
+
+    def test_regular_user(self):
+        """Test a user not setup in the group Read_Only and ensure this returns False.
+        """
+        user = tests.setup_test_user()
+
+        results = utils.is_read_only_user(user)
+
+        self.assertFalse(results)
 
 
 class PopulateCountryListTest(test.TestCase):

@@ -19,6 +19,7 @@ from django.views.generic import RedirectView
 
 from myapp import forms
 from myapp import utils
+from myapp.decorators import write_perms_required
 from myapp.models import Book
 from myapp.models import Currency
 
@@ -26,6 +27,7 @@ from pycountry import countries
 from pycountry import historic_countries
 
 
+@method_decorator(write_perms_required, name="dispatch")
 class AddBookView(LoginRequiredMixin, View):
     t = "add_book.html"
 
@@ -95,6 +97,7 @@ class AddBookView(LoginRequiredMixin, View):
             return redirect("myapp:books")
 
 
+@method_decorator(write_perms_required, name="dispatch")
 class AddEntryView(LoginRequiredMixin, View):
     t = "add_entry.html"
 
@@ -172,6 +175,8 @@ class BookView(LoginRequiredMixin, View):
 
         ctx["books"] = Book.objects.all()
 
+        ctx["read_only_user"] = utils.is_read_only_user(request.user)
+
         return render(request, self.t, ctx)
 
 
@@ -227,9 +232,12 @@ class CollectionView(LoginRequiredMixin, View):
 
         ctx["results"] = results
 
+        ctx["read_only_user"] = utils.is_read_only_user(request.user)
+
         return render(request, self.t, ctx)
 
 
+@method_decorator(write_perms_required, name="dispatch")
 class DeleteBookView(LoginRequiredMixin, View):
     def post(self, request, id):
         try:
@@ -243,6 +251,7 @@ class DeleteBookView(LoginRequiredMixin, View):
         return redirect("myapp:books")
 
 
+@method_decorator(write_perms_required, name="dispatch")
 class DeleteEntryView(LoginRequiredMixin, View):
     def post(self, request, id):
         try:
