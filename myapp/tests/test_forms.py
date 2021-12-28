@@ -1,10 +1,36 @@
-import datetime
-
 from django import test
 
 from myapp import forms
-from myapp import tests
 from myapp.models import Book
+
+
+class BookFormTest(test.TestCase):
+    def form_data(self, **kwargs):
+        data = {}
+
+        data["description"] = kwargs.pop("description", "Test Book")
+        data["pages"] = kwargs.pop("pages", 5)
+        data["rows_per_page"] = kwargs.pop("rows_per_page", 5)
+        data["columns_per_row"] = kwargs.pop("columns_per_row", 5)
+
+        return forms.BookForm(
+            data=data
+        )
+
+    def test_no_description_specified(self):
+        """If description not specified, ensure error is thrown.
+        """
+        data = {
+            "description": ""
+        }
+
+        form = self.form_data(**data)
+
+        errors = form.errors.as_data()
+
+        self.assertFalse(form.is_valid())
+        self.assertEqual(len(errors), 1)
+        self.assertEqual(form["description"].errors.as_data()[0].code, "required")
 
 
 class EntryFormTest(test.TestCase):

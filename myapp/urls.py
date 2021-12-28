@@ -11,6 +11,8 @@ urlpatterns = [
     # Book pages
     path('books', currency_views.BookView.as_view(), name="books"),
     path('books/add', currency_views.AddBookView.as_view(), name="add_book"),
+    path('books/delete/<int:id>', currency_views.DeleteBookView.as_view(), name="delete_book"),
+    path('books/edit/<int:id>', currency_views.AddBookView.as_view(), name="edit_book"),
 
     # Collection pages
     path('collection', currency_views.CollectionView.as_view(), name="collection"),

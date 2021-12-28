@@ -34,12 +34,12 @@
                                 <td>{{ book.description }}</td>
                                 <td>{{ book.pages }}</td>
                                 <td style="text-align:center" data-toggle="tooltip" data-placement="top" title="Update book information.">
-                                    <a href="{% url "myapp:edit_entry" book.id %}" class="btn btn-sm btn-light btn-round">
+                                    <a href="{% url "myapp:edit_book" book.id %}" class="btn btn-sm btn-light btn-round">
                                         <i class="fa fa-pen text-primary"></i>
                                     </a>
                                 </td>
                                 <td style="text-align:center">
-                                    <form action="{% url "myapp:delete_entry" book.id %}" method="POST">
+                                    <form action="{% url "myapp:delete_book" book.id %}" method="POST">
                                         {% csrf_token %}
                                         <button type="submit" class="btn btn-sm btn-light btn-round" data-toggle="tooltip" data-placement="top" 
                                             title="Delete this book and all of it's entries."

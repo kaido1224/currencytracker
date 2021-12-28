@@ -7,6 +7,154 @@ from myapp import models
 from myapp import tests
 
 
+class AddBookViewTest(test.TestCase):
+    def setUp(self):
+        user = tests.setup_test_user()
+        self.client.force_login(user=user)
+
+    def test_add_get_results(self):
+        """Ensure that when adding a new entry, the appropriate context is passed and page loads correctly.
+        """
+        response = self.client.get("/books/add")
+
+        ctx = response.context
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(ctx["form"], forms.BookForm)
+
+    def test_edit_get_results(self):
+        """Ensure if editing an existing record, that the appropriate context is returned.
+        """
+        # Create book record
+        book = models.Book.objects.create(
+            description="My Test Book",
+            pages=6,
+            rows_per_page=5,
+            columns_per_row=5
+        )
+
+        response = self.client.get(f"/books/edit/{book.id}")
+
+        ctx = response.context
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(ctx["form"], forms.BookForm)
+        self.assertEqual(ctx["book"], book)
+
+    def test_invalid_entry_get(self):
+        """Ensure that if an invalid entry was entered, that the appropriate message and redirect occurs.
+        """
+        response = self.client.get("/books/edit/9999999")
+
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+
+        self.assertEqual(messages[0], "Invalid book specified.")
+        self.assertRedirects(response, "/books", status_code=302,
+                             target_status_code=200, fetch_redirect_response=True)
+
+    def test_post_results(self):
+        """Ensure that if a new book is created, and the user didn't select create another button,
+        that the page is redirected back to the books page.
+        """
+        data = {
+            "description": "My New Test Book"
+        }
+
+        response = self.client.post("/books/add", data=data)
+
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+
+        self.assertRedirects(response, "/books", status_code=302,
+                             target_status_code=200, fetch_redirect_response=True)
+        self.assertEqual(messages[0], "Created new book successfully.")
+
+    def test_post_results_add_another(self):
+        """Ensure that if a new book is created, and the user didn't select create another button,
+        that the page is redirected back to the add book page.
+        """
+        data = {
+            "description": "Another Test Book",
+            "pages": 2,
+            "rows_per_page": 5,
+            "columns_per_row": 4,
+            "_create_another": True
+        }
+
+        response = self.client.post("/books/add", data=data)
+
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+
+        self.assertRedirects(response, "/books/add", status_code=302,
+                             target_status_code=200, fetch_redirect_response=True)
+        self.assertEqual(messages[0], "Created new book successfully.")
+
+    def test_post_results_invalid_form(self):
+        """Ensure that if an invalid form occurs, appropriate context is returned.
+        """
+        data = {
+            "pages": 1
+        }
+
+        response = self.client.post("/books/add", data=data)
+
+        ctx = response.context
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(ctx["form"], forms.BookForm)
+
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+
+        self.assertEqual(messages[0], "Form is invalid, make appropriate corrections and try"
+                         " again.")
+
+    def test_post_edit_book_results(self):
+        """Ensure that editing a book the page is redirected back to the books page if done
+        correctly.
+        """
+        # Create book record.
+        book = models.Book.objects.create(
+            description="My Third Test Book"
+        )
+
+        data = {
+            "description": "My Third Test Book",
+            "pages": 5
+        }
+
+        response = self.client.post(f"/books/edit/{book.id}", data=data)
+
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+
+        self.assertRedirects(response, "/books", status_code=302,
+                             target_status_code=200, fetch_redirect_response=True)
+        self.assertEqual(messages[0], "Updated book successfully.")
+
+    def test_post_edit_book_invalid_form(self):
+        """Ensure if an invalid form occurs, that the appropriate context is passed back.
+        """
+        # Create book record.
+        book = models.Book.objects.create(
+            description="Shammy's Test Book"
+        )
+
+        data = {
+            "pages": 5
+        }
+
+        response = self.client.post(f"/books/edit/{book.id}", data=data)
+
+        ctx = response.context
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(ctx["book"], book)
+        self.assertIsInstance(ctx["form"], forms.BookForm)
+
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+
+        self.assertEqual(messages[0], "Form is invalid, make appropriate corrections and try"
+                         " again.")
+
+
 class AddEntryViewTest(test.TestCase):
     def setUp(self):
         user = tests.setup_test_user()
@@ -455,6 +603,38 @@ class CollectionViewTest(test.TestCase):
         self.assertDictEqual(ctx["results"][-1], expected)
 
 
+class DeleteBookViewTest(test.TestCase):
+    def setUp(self):
+        user = tests.setup_test_user()
+        self.client.force_login(user=user)
+
+        # Create book record.
+        self.book = models.Book.objects.create(
+            description="My Deletion Test Book"
+        )
+
+    def test_results(self):
+        response = self.client.post(f"/books/delete/{self.book.id}")
+
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+
+        self.assertRedirects(response, "/books", status_code=302,
+                             target_status_code=200, fetch_redirect_response=True)
+        self.assertEqual(messages[0], "Successfully deleted book and all it's entries.")
+
+    def test_invalid_book(self):
+        invalid_entry = models.Book.objects.count() + 1
+
+        response = self.client.post(f"/books/delete/{invalid_entry}")
+
+        messages = [m.message for m in get_messages(response.wsgi_request)]
+
+        self.assertRedirects(response, "/books", status_code=302,
+                             target_status_code=200, fetch_redirect_response=True)
+        self.assertEqual(messages[0], "Failed to delete book.")
+
+
+
 class DeleteEntryViewTest(test.TestCase):
     def setUp(self):
         user = tests.setup_test_user()
@@ -486,7 +666,7 @@ class DeleteEntryViewTest(test.TestCase):
                              target_status_code=200, fetch_redirect_response=True)
         self.assertEqual(messages[0], "Successfully deleted entry.")
 
-    def test_invalid_address(self):
+    def test_invalid_entry(self):
         invalid_entry = models.Currency.objects.count() + 1
 
         response = self.client.post(f"/collection/delete/{invalid_entry}")

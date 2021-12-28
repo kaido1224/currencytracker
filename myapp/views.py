@@ -48,7 +48,7 @@ class AddBookView(LoginRequiredMixin, View):
 
             if not book:
                 messages.error(request, "Invalid book specified.")
-                return redirect("myapp:collection")
+                return redirect("myapp:books")
 
             ctx["form"] = forms.BookForm(instance=book)
             ctx["book"] = book
@@ -57,6 +57,42 @@ class AddBookView(LoginRequiredMixin, View):
             ctx["form"] = forms.BookForm()
 
         return render(request, self.t, ctx)
+
+    def post(self, request, id=None):
+        ctx = {}
+
+        # If editing an existing book
+        if id:
+            book = self.get_book_info(id)
+            ctx["book"] = book
+
+            if not book:
+                messages.error(request, "Invalid book specified.")
+                return redirect("myapp:books")
+
+            form = forms.BookForm(request.POST, instance=book)
+        else:
+            form = forms.BookForm(request.POST)
+
+        if not form.is_valid():
+            messages.error(request, "Form is invalid, make appropriate corrections and try again.")
+            ctx["form"] = form
+            return render(request, self.t, ctx)
+
+        form.save()
+
+        if id:
+            message = "Updated book successfully."
+        else:
+            message = "Created new book successfully."
+
+        messages.success(request, message)
+
+        # Redirect to appropriate page based on button clicked.
+        if "_create_another" in request.POST:
+            return redirect("myapp:add_book")
+        else:
+            return redirect("myapp:books")
 
 
 class AddEntryView(LoginRequiredMixin, View):
@@ -192,6 +228,19 @@ class CollectionView(LoginRequiredMixin, View):
         ctx["results"] = results
 
         return render(request, self.t, ctx)
+
+
+class DeleteBookView(LoginRequiredMixin, View):
+    def post(self, request, id):
+        try:
+            Book.objects.get(pk=id).delete()
+
+            messages.success(request, "Successfully deleted book and all it's entries.")
+
+        except Book.DoesNotExist:
+            messages.error(request, "Failed to delete book.")
+
+        return redirect("myapp:books")
 
 
 class DeleteEntryView(LoginRequiredMixin, View):
