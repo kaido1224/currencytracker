@@ -108,7 +108,7 @@ Below are instructions for setting up this project on your local machine. The sh
 6. Install the requirements file
    ```sh
     pip install -r requirements.txt
-  ```
+   ```
 7. If you didn't already have Postgres installed, follow the instructions below to set it up.
    ```sh
     sudo -u postgres createuser --superuser --createdb --pwprompt usernamehere
