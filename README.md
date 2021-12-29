@@ -48,11 +48,10 @@
 </p>
 
 <p>
-    On the home page, you can see a visual of the countries already in your collection as well as a table that displays a listing of the countries that you are missing
-    from your collection.
+    On the home page, you can see a visual representation of the countries already in your collection as well as a table that displays a listing of the countries that you are 
+    missing from your collection.
 </p>
 
-<p align="right">(<a href="#top">back to top</a>)</p>
 </div>
 <div id="built-with">
 
@@ -65,72 +64,80 @@
 <p align="right">(<a href="#top">back to top</a>)</p>
 </div>
 
-# Currency Tracker
-A world currency collection tracker app I made for my son.
+<!-- GETTING STARTED -->
+<div id="getting-started">
 
-Setup Instructions
-===================
-Instructions below are for setting up CurrencyTracker in a Linux Ubuntu environment.
+## Getting Started
 
-Install a python virtual environment.
+Below are instructions for setting up this project on your local machine. The shell commands below are written with Linux Ubuntu in mind. If you are using a different operating system, your instructions may vary.
+</div>
+<div id="prerequisites">
+
+### Prerequisites
+
+* [Python 3.6+](https://www.python.org/downloads/)
+* Python 3.6+ virtual environment
+  ```sh
+  sudo apt install python3-venv
+  ```
+</div>
+<div id="installation">
     
-```sh
-$ sudo apt install python3-venv
-```
+### Installation
 
-Next, clone the repository from github.
+1. Clone the repo
+   ```sh
+   git clone https://github.com/kaido1224/currencytracker.git
+   ```
+2. Navigate to the project directory created.
+   ```sh
+   cd currencytracker
+   ```
+3. Setup Python virtual environment
+   ```sh
+    python3 -m venv ve
+   ```
+4. Activate the new virtual environment
+    ```sh
+    . ve/bin/activate
+    ```
+5. Update pip
+   ```sh
+    pip install -U pip
+   ```
+6. Install the requirements file
+   ```sh
+    pip install -r requirements.txt
+  ```
+7. If you didn't already have Postgres installed, follow the instructions below to set it up.
+   ```sh
+    sudo -u postgres createuser --superuser --createdb --pwprompt usernamehere
+   ``` 
+8. Create a database for CurrencyTracker in Postgres, assign it to your user.
+   ```sh
+    psql
+    > create database currency with owner usernamehere;
+    >\q
+   ```
+9. Create a secrets.py file under settings.
+   ```sh
+    sudo vim currency/settings/secrets.py
+   ```
+   Inside of the file, create a secrets dictionary similar to the below:
+    ```py
+    secrets_dict = {
+        "SECRET_KEY": "DJANGOSECRETKEYHERE",
+        "DB_USER": "YOURPOSTGRESUSERHERE",
+        "DB_PASSWORD": "YOURPOSTGRESUSERPWHERE"
+    }
+   ```
+    
+   After that, save and exit.
 
-```sh
-$ git clone https://github.com/kaido1224/currencytracker.git
-
-$ cd currencytracker
-
-# Setup virtual environment
-$ python3 -m venv ve
-
-# Activate new virtual environment
-$ . ve/bin/activate
-
-# Update pip
-$ pip install -U pip
-
-# Install everything necessary to run CurrencyTracker.
-$ pip install -r requirements.txt
-```
-
-If you don't already have Postgres setup on your system, follow the instructions below to set it up.
-
-```sh
-$ sudo -u postgres createuser --superuser --createdb --pwprompt usernamehere
-```
-
-Create a database for CurrencyTracker in Postgres, assign it to your user.
-
-```sh
-$ psql
-> create database currencytracker with owner usernamehere;
->\q
-```
-
-Create a secrets.py file under settings.
-```sh
-sudo vim currency/settings/secrets.py
-```
-
-Inside of the file, create a secrets dictionary similar to the below:
-```python
-secrets_dict = {
-    "SECRET_KEY: "DJANGOSECRETKEYHERE",
-    "DB_USER": "YOURPOSTGRESUSERHERE",
-    "DB_PASSWORD: "YOURPOSTGRESUSERPWHERE"
-}
-```
-
-After that, save and exit.
-
-```sh
-# Apply database models.
-$ ./manage.py migrate
+10. Apply database migrations.
+    ```sh
+     $ ./manage.py migrate
+    ```
 
 # Create a superuser to log into the project.
 $ ./manage.py createsuperuser
