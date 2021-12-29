@@ -1,4 +1,57 @@
-# currencytracker
+<div id="top"></div>
+
+<h3 align="center">Currency Tracker</h3>
+
+<div align="center">
+    <p>
+        My oldest son has recently acquired an interest in money from around the world and started building a collection. When it got beyond a collection of 30 different coins 
+        in various langauges, it became difficult for us to keep track of which coins came from where. So I built this compact project for my son to keep track of what currency
+        he has already and what countries he still needs to finish his collection.
+    </p>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+  </ol>
+</details>
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
+
+Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email`, `email_client`, `project_title`, `project_description`
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+### Built With
+
+* [Django](https://www.djangoproject.com/)
+* [Python](https://www.python.org/)
+* [JQuery](https://jquery.com)
+
+# Currency Tracker
 A world currency collection tracker app I made for my son.
 
 Setup Instructions
