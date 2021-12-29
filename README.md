@@ -1,9 +1,9 @@
 # currencytracker
 A world currency collection tracker app I made for my son.
 
-Apollo Setup Instructions
+Setup Instructions
 ===================
-Instructions below are for setting up Apollo in a Linux Ubuntu environment.
+Instructions below are for setting up CurrencyTracker in a Linux Ubuntu environment.
 
 Install a python virtual environment.
     
