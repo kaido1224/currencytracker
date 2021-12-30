@@ -39,7 +39,7 @@
 
 ## About The Project
 
-![Product Name Screen Shot][product-screenshot]
+![Home Page Screen Shot][home-screenshot]
 
 <p>
     My oldest son has recently acquired an interest in money from around the world and started building a collection. When it got beyond a collection of 30 different
@@ -153,9 +153,9 @@ Below are instructions for setting up this project on your local machine. The sh
 
 13. In your browser, navigate to http://127.0.0.1:8000, you should see a login screen. Use the credentials you created in step 11 to login.
 
-    ![Product Name Screen Shot][login-screenshot]
+    ![Login Screen Shot][login-screenshot]
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[product-screenshot]: currency/static/home.PNG
-[login-screenshot]: currency/static/home.PNG
+[home-screenshot]: currency/static/home.PNG
+[login-screenshot]: currency/static/login.png
