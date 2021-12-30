@@ -116,13 +116,14 @@ Below are instructions for setting up this project on your local machine. The sh
 8. Create a database for CurrencyTracker in Postgres, assign it to your user.
    ```sh
     psql
-    > create database currency with owner usernamehere;
-    >\q
+    create database currency with owner usernamehere;
+    \q
    ```
 9. Create a secrets.py file under settings.
    ```sh
     sudo vim currency/settings/secrets.py
    ```
+
    Inside of the file, create a secrets dictionary similar to the below:
     ```py
     secrets_dict = {
@@ -134,23 +135,27 @@ Below are instructions for setting up this project on your local machine. The sh
     
    After that, save and exit.
 
-10. Apply database migrations.
+10. Apply database migrations. If you want prepopulated data, access <i>myapp.0002_auto_20211210_0311.py</i> under myapp/migrations and uncomment out the
+    book creation and currency bulk_create sections.
     ```sh
-     $ ./manage.py migrate
+     ./manage.py migrate
     ```
 
-# Create a superuser to log into the project.
-$ ./manage.py createsuperuser
-```
+11. Create a superuser to log into the project.
+    ```sh
+    ./manage.py createsuperuser
+    ```
 
-If done correctly, you should now be able to run CurrencyTracker in a development environment.
+12. If done correctly, you should now be able to run CurrencyTracker in a development environment.
+    ```sh
+    ./manage.py runserver
+    ```
 
-```sh
-$ ./manage.py runserver
-```
+13. In your browser, navigate to http://127.0.0.1:8000, you should see a login screen. Use the credentials you created in step 11 to login.
 
-In the browser, navigate to http://127.0.0.1:8000.
+    ![Product Name Screen Shot][login-screenshot]
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [product-screenshot]: currency/static/home.PNG
+[login-screenshot]: currency/static/home.PNG
