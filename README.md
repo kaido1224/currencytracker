@@ -157,5 +157,5 @@ Below are instructions for setting up this project on your local machine. The sh
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[home-screenshot]: currency/static/home.PNG
-[login-screenshot]: currency/static/login.png
+[home-screenshot]: currency/static/images/home.png
+[login-screenshot]: currency/static/images/login.png
