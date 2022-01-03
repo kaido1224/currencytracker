@@ -48,8 +48,8 @@
 </p>
 
 <p>
-    On the home page, you can see a visual representation of the countries already in your collection as well as a table that displays a listing of the countries that you are 
-    missing from your collection.
+    On the home page, you can see a visual representation of the countries already in your collection as well as a table that displays a listing of the countries 
+    that you are missing from your collection.
 </p>
 
 </div>
@@ -154,6 +154,24 @@ Below are instructions for setting up this project on your local machine. The sh
 13. In your browser, navigate to http://127.0.0.1:8000, you should see a login screen. Use the credentials you created in step 11 to login.
 
     ![Login Screen Shot][login-screenshot]
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+</div>
+
+<!-- USAGE EXAMPLES -->
+<div id="usage">
+
+## Usage
+
+<p>This project has three main pages. The first, is the home page already discussed <a href="#about">above</a>. The other two pages, book management
+and collection management, can be accessed in the left-hand navigation menu and are discussed in more detail below.
+</p>
+    
+#### Book Management
+
+<p>
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
