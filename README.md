@@ -179,4 +179,4 @@ and collection management, both contain similar sub pages and can be accessed in
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [home-screenshot]: currency/static/images/home.png
 [login-screenshot]: currency/static/images/login.png
-[book-management-screenshot]: currency/static/images/book-management.png
+[book-management-screenshot]: currency/static/images/book_management.png
