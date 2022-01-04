@@ -169,7 +169,9 @@ and collection management, both contain similar sub pages and can be accessed in
     
 #### Book Management
 
-<p>Before you create entries into your collection, you must first create a book that you can assign your collection entries to. With this page you can view your existing collection books, add a new one, edit existing book details and delete books and their associated collection.</p>
+<p>Before you create entries into your collection, you must first create a book that you can assign your collection entries to. On the book management page you can view your existing collection books, add a new one, edit existing book details or delete books and their associated collections.</p>
+    
+![Book Management Page Screen Shot][book-management-screenshot]
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -177,3 +179,4 @@ and collection management, both contain similar sub pages and can be accessed in
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [home-screenshot]: currency/static/images/home.png
 [login-screenshot]: currency/static/images/login.png
+[book-management-screenshot]: currency/static/images/book-management.png
