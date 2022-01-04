@@ -163,13 +163,13 @@ Below are instructions for setting up this project on your local machine. The sh
 
 ## Usage
 
-<p>This project has three main pages. The first, is the home page already discussed <a href="#about">above</a>. The other two pages, book management
-and collection management, can be accessed in the left-hand navigation menu and are discussed in more detail below.
+<p>This project currently has three main pages. The first, is the home page already discussed <a href="#about">above</a>. The other two pages, book management
+and collection management, both contain similar sub pages and can be accessed in the left-hand navigation menu. A more detailed explanation of these two management pages, and their underlying models is described below.
 </p>
     
 #### Book Management
 
-<p>
+<p>Before you create entries into your collection, you must first create a book that you can assign your collection entries to. With this page you can view your existing collection books, add a new one, edit existing book details and delete books and their associated collection.</p>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
