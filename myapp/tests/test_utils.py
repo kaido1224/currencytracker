@@ -1,6 +1,3 @@
-
-
-from unittest import result
 from django import test
 
 from myapp import tests
