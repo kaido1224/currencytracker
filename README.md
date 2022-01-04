@@ -172,6 +172,18 @@ and collection management, both contain similar sub pages and can be accessed in
 <p>Before you create entries into your collection, you must first create a book that you can assign your collection entries to. On the book management page you can view your existing collection books, add a new one, edit existing book details or delete books and their associated collections.</p>
     
 ![Book Management Page Screen Shot][book-management-screenshot]
+    
+<p>Below is a brief description of the fields found in the book model.</p>
+
+| Field       | Description | Required? |
+| ----------- | ----------- | ----------- |
+| Description      | You can enter the title of the book here. Otherwise, if you are like my son, whose collection books don't have a title, enter a description of the book instead.       | Y |
+| Pages   | The number of pages in the book. At this time, this isn't used for anything. | N |
+| Rows Per Page | The number of rows on a given page. At this time, this isn't used for anything. | N |
+| Columns Per Row | The number of columns on a given row on a page. At this time, this isn't used for anything. | N |
+
+
+#### Collection Management
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
