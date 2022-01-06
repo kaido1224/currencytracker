@@ -173,17 +173,30 @@ and collection management, both contain similar sub pages and can be accessed in
     
 ![Book Management Page Screen Shot][book-management-screenshot]
     
-<p>Below is a brief description of the fields found in the book model.</p>
+<p>Below is a brief description of the fields associated to a book.</p>
 
 | Field       | Description | Required? |
 | ----------- | ----------- | ----------- |
-| Description      | You can enter the title of the book here. Otherwise, if you are like my son, whose collection books don't have a title, enter a description of the book instead.       | Y |
-| Pages   | The number of pages in the book. At this time, this isn't used for anything. | N |
-| Rows Per Page | The number of rows on a given page. At this time, this isn't used for anything. | N |
-| Columns Per Row | The number of columns on a given row on a page. At this time, this isn't used for anything. | N |
+| Description      | You can enter the title of the book here. Otherwise, if you are like my son, whose collection books don't have a title, enter a description of the book instead.       | Yes |
+| Pages   | The number of pages in the book. At this time, this isn't used for anything. | No |
+| Rows Per Page | The number of rows on a given page. At this time, this isn't used for anything. | No |
+| Columns Per Row | The number of columns on a given row on a page. At this time, this isn't used for anything. | No |
 
 
 #### Collection Management
+
+<p>Once you've created a book for your collection, you can begin using the collection management page. On this page, similar to the book management page, you can view your existing collection entries, add a new one, or edit or delete existing entries.</p>
+    
+![Collection Management Page Screen Shot][collection-management-screenshot]
+    
+<p>Below is a brief description of the fields associated to a collection entry.</p>
+    
+| Field       | Description | Required? |
+| ----------- | ----------- | ----------- |
+| Book | The book the collection entry is located in. | Yes |
+| Page | The page in the book the entry is located in. | No |
+| Row | The row on the page the entry is located in. | No |
+| Column | The column in the row the entry is located in. | No |
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -192,3 +205,4 @@ and collection management, both contain similar sub pages and can be accessed in
 [home-screenshot]: currency/static/images/home.png
 [login-screenshot]: currency/static/images/login.png
 [book-management-screenshot]: currency/static/images/book_management.png
+[collection-management-screenshot]: currency/static/images/collection_management.png
