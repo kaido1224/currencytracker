@@ -189,15 +189,23 @@ and collection management, both contain similar sub pages and can be accessed in
     
 ![Collection Management Page Screen Shot][collection-management-screenshot]
     
-<p>Below is a brief description of the fields associated to a collection entry.</p>
+<p>Below is a brief description of the fields associated to a collection entry. Most of the fields are not required to allow you to fill in the information that 
+    you know now and can fill in the rest of the information later.</p>
     
-| Field       | Description | Required? |
+| Field | Value | Description | Required? |
 | ----------- | ----------- | ----------- |
-| Book | The book the collection entry is located in. | Yes |
-| Page | The page in the book the entry is located in. | No |
-| Row | The row on the page the entry is located in. | No |
-| Column | The column in the row the entry is located in. | No |
-
+| Book | Book ID |  The book the collection entry is located in. | Yes |
+| Page | Integer | The page in the book the entry is located in. | No |
+| Row | Integer | The row on the page the entry is located in. | No |
+| Column | Integer | The column in the row the entry is located in. | No |
+| Currency | String, up to 100 characters | The name of the currency, such as a Euro Cent or Peso. | No |
+| Value | Decimal | The value of the currency. | No |
+| Type | String, 4 characters. Should be either a bill or coin. | No |
+| Country | String, 2 character ISO code for the country. | No |
+    
+<p>There are certain countries that share a currency with several other nations and are grouped together as a different "country". These special exceptions are shown below.
+</p>
+    
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
