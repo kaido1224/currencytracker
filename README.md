@@ -193,7 +193,7 @@ and collection management, both contain similar sub pages and can be accessed in
     you know now and can fill in the rest of the information later.</p>
     
 | Field | Value | Description | Required? |
-| ----------- | ----------- | ----------- |
+| ----------- | ----------- | ----------- | ----------- |
 | Book | Book ID |  The book the collection entry is located in. | Yes |
 | Page | Integer | The page in the book the entry is located in. | No |
 | Row | Integer | The row on the page the entry is located in. | No |
