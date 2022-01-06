@@ -201,10 +201,16 @@ and collection management, both contain similar sub pages and can be accessed in
 | Currency | String, up to 100 characters | The name of the currency, such as a Euro Cent or Peso. | No |
 | Value | Decimal | The value of the currency. | No |
 | Type | String, 4 characters. | What type of currency this is. Should be either a bill or coin. | No |
-| Country | String, 2 character ISO code for the country. | The country that this currency belongs to. | No |
+| Country | String, 2 character ISO code for the country. | The country that this currency came from. | No |
     
-<p>There are certain countries that share a currency with several other nations and are grouped together as a different "country". These special exceptions are shown below.
+<p>There are certain countries that share a currency with several others and are grouped together as a different country entry. These special exceptions are shown below.
 </p>
+    
+ | Country Name | Affiliated Countries |
+ | ----------- | ----------- |
+ | Central Africa CFA | Cameroon, Central African Republic, Chad, Equatorial Guinea, Gabon, Republic of the Congo |
+ | Eastern Carribean Islands | Anguilla, Antigua and Barbuda, Dominica, Grenada, Montserrat, Saint Kitts and Nevis, Saint Lucia, Saint Vincent and the Grenadines |
+ | West Africa CFA | Benin, Burkina Faso, Côte d'Ivoire, Guinea-Bissau, Mali, Niger, Senegal, Togo |
     
 <p align="right">(<a href="#top">back to top</a>)</p>
 
