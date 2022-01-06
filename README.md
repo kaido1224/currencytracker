@@ -175,12 +175,12 @@ and collection management, both contain similar sub pages and can be accessed in
     
 <p>Below is a brief description of the fields associated to a book.</p>
 
-| Field       | Description | Required? |
-| ----------- | ----------- | ----------- |
-| Description      | You can enter the title of the book here. Otherwise, if you are like my son, whose collection books don't have a title, enter a description of the book instead.       | Yes |
-| Pages   | The number of pages in the book. At this time, this isn't used for anything. | No |
-| Rows Per Page | The number of rows on a given page. At this time, this isn't used for anything. | No |
-| Columns Per Row | The number of columns on a given row on a page. At this time, this isn't used for anything. | No |
+| Field | Value | Description | Required? |
+| ----------- | ----------- | ----------- | ----------- |
+| Description | String, up to 100 characters | You can enter the title of the book here. Otherwise, if you are like my son, whose collection books don't have a title, enter a description of the book instead. | Yes |
+| Pages | Integer | The number of pages in the book. At this time, this isn't used for anything. | No |
+| Rows Per Page | Integer | The number of rows on a given page. At this time, this isn't used for anything. | No |
+| Columns Per Row | Integer | The number of columns on a given row on a page. At this time, this isn't used for anything. | No |
 
 
 #### Collection Management
